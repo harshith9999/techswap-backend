@@ -16,7 +16,6 @@ router.get("/", function (req, res, next) {
     });
 });
 router.post("/register", function (req, res, next) {
-  const { Institute, Name, Mobile, Department, Date, State } = req.body;
   const user = new User();
   for (var key in req.body) {
     console.log("key and values", key, req.body[key]);
