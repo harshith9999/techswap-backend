@@ -1,0 +1,52 @@
+.member {
+  text-align: center;
+}
+h1 {
+  font-size: xxx-large !important;
+}
+.list {
+  padding: 5px 5px 25px 25px;
+}
+.content {
+  display: flex;
+  font-size: x-large;
+  padding: 10px 10px 40px 40px;
+}
+.body1 {
+  padding: 125px 40px 60px 40px;
+}
+.body2 {
+  padding: 70px 40px 0px 40px;
+  font-size: large;
+}
+.contact {
+  padding: 20px 0px 0px 40px;
+  display: flex;
+  color: white;
+  background-color: black;
+  flex-direction: column;
+}
+.abc {
+  display: flex;
+  flex-direction: column;
+}
+.about {
+  display: flex;
+  flex: row;
+  margin-bottom: 70px;
+}
+.form {
+  width: 45%;
+}
+
+@media only screen and (max-width: 600px) {
+  .content img {
+    display: none;
+  }
+  .about img {
+    display: none;
+  }
+  .form {
+    width: 100%;
+  }
+}
