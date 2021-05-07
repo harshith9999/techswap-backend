@@ -34,4 +34,8 @@ router.post("/register", function (req, res, next) {
     });
 });
 
+router.get('/test', (req, res)=> {
+  res.send("Welcome")
+})
+
 module.exports = router;
