@@ -27,7 +27,7 @@ router.post("/register", function (req, res, next) {
     .save()
     .then((result) => {
       console.log("result after success storing", result);
-      sendEmail(user);
+      sendEmail();
       res.status(200).send(result);
     })
     .catch((error) => {

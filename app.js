@@ -11,21 +11,31 @@ var mongoose = require("mongoose");
 
 var app = express();
 
-mongoose
-  .connect(
-    "mongodb+srv://user:user@profiledata.a03ei.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-    {
-      useNewUrlParser: true,
-      useCreateIndex: true,
-      useFindAndModify: false,
-      useUnifiedTopology: true,
-    }
-  )
-  .then(() => console.log("mongodb connected"))
-  .catch((err) => {
-    console.err(err.message);
-    process.exit(1);
-  });
+// mongoose
+//   .connect(
+//     "mongodb+srv://user:user@profiledata.a03ei.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+//     {
+//       useNewUrlParser: true,
+//       useCreateIndex: true,
+//       useFindAndModify: false,
+//       useUnifiedTopology: true,
+//     }
+//   )
+//   .then(() => console.log("mongodb connected"))
+//   .catch((err) => {
+//     console.err(err.message);
+//     process.exit(1);
+//   });
+
+
+// remote mongodb connection
+mongoose.connect('mongodb://127.0.0.1:27017/techswap-backend',
+{          useNewUrlParser: true,
+           useCreateIndex: true,
+           useFindAndModify: false,
+           useUnifiedTopology: true,
+
+})
 
 mongoose.connection.on("error", (err) => {
   console.log("err", err);
@@ -69,5 +79,11 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render("error");
 });
+
+
+// Port for issues2
+app.listen(3000,()=>{
+  console.log("Server is on the port")
+})
 
 module.exports = app;
