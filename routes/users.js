@@ -1,5 +1,5 @@
 var express = require("express");
-const sendMail = require("../mails/mail");
+const sendEmail = require("../mails/mail");
 var router = express.Router();
 var User = require("../models/user");
 /* GET users listing. */
@@ -27,7 +27,7 @@ router.post("/register", function (req, res, next) {
     .save()
     .then((result) => {
       console.log("result after success storing", result);
-      sendMail(user);
+      sendEmail(user);
       res.status(200).send(result);
     })
     .catch((error) => {
