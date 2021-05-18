@@ -1,4 +1,5 @@
 var express = require("express");
+const sendMail = require("../mails/mail");
 var router = express.Router();
 var User = require("../models/user");
 /* GET users listing. */
@@ -16,16 +17,17 @@ router.get("/", function (req, res, next) {
     });
 });
 router.post("/register", function (req, res, next) {
-  const user = new User();
-  for (var key in req.body) {
-    console.log("key and values", key, req.body[key]);
-    user[key] = req.body[key];
-  }
+  const user = new User(req.body);
+  // for (var key in req.body) {
+  //   console.log("key and values", key, req.body[key]);
+  //   user[key] = req.body[key];
+  // }
   console.log("the user", user);
   user
     .save()
     .then((result) => {
       console.log("result after success storing", result);
+      sendMail(user);
       res.status(200).send(result);
     })
     .catch((error) => {
