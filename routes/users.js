@@ -16,25 +16,20 @@ router.get("/", function (req, res, next) {
       res.status(404).send(error);
     });
 });
-router.post("/register", function (req, res, next) {
-  const user = new User(req.body);
-  // for (var key in req.body) {
-  //   console.log("key and values", key, req.body[key]);
-  //   user[key] = req.body[key];
-  // }
-  console.log("the user", user);
-  user
-    .save()
-    .then((result) => {
-      console.log("result after success storing", result);
-      sendEmail();
-      res.status(200).send(result);
-    })
-    .catch((error) => {
-      console.log("error in storing the info", error);
-      res.status(404).send(error);
-    });
-});
+router.post("/register", async (req, res)=> {
+  try{
+    const user = new User(req.body);
+    console.log("the user", user);
+    await user.save()  
+        console.log("result after success storing", user);
+    await sendEmail(user);
+        res.status(200).send(user);
+  }catch(e){
+    console.log("error in storing the info", e);
+    res.status(404).send(e);
+  }
+  
+})
 
 router.get('/test', (req, res)=> {
   res.send("Welcome")
