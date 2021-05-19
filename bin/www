@@ -7,13 +7,14 @@
 var app = require("../app");
 var debug = require("debug")("website:server");
 var http = require("http");
-const config = require('config')
+const config = require('config');
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || config.get('port'));
+var port = normalizePort(process.env.PORT ||  config.get('port'));
+
 app.set("port", port);
 
 /**
@@ -85,3 +86,5 @@ function onListening() {
   var bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
   debug("Listening on " + bind);
 }
+
+ module.exports=port

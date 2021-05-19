@@ -17,16 +17,18 @@ router.get("/", function (req, res, next) {
     });
 });
 router.post("/register", async (req, res)=> {
+  const user = new User(req.body);
   try{
-    const user = new User(req.body);
     console.log("the user", user);
     await user.save()  
         console.log("result after success storing", user);
-    await sendEmail(user);
         res.status(200).send(user);
   }catch(e){
     console.log("error in storing the info", e);
     res.status(404).send(e);
+  }finally{
+     sendEmail(user);
+
   }
   
 })

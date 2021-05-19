@@ -4,6 +4,7 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var cors = require('cors')
+var config=require('config')
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -29,6 +30,8 @@ var app = express();
 
 
 // remote mongodb connection
+
+
 mongoose.connect('mongodb://127.0.0.1:27017/techswap-backend',
 {          useNewUrlParser: true,
            useCreateIndex: true,
@@ -42,6 +45,8 @@ mongoose.connection.on("error", (err) => {
 });
 mongoose.connection.on("connected", (err, res) => {
   console.log("mongoose is connected");
+  // console.log(`Server is running on ${config.get('port')}`)
+  // console.log(`http://localhost:${config.get('port')}`)
 });
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -83,7 +88,7 @@ app.use(function (err, req, res, next) {
 
 // Port for issues2
 app.listen(3000,()=>{
-  console.log("Server is on the port")
+  console.log("Server is on the port"+3000)
 })
 
 module.exports = app;
