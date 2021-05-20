@@ -45,8 +45,8 @@ mongoose.connection.on("error", (err) => {
 });
 mongoose.connection.on("connected", (err, res) => {
   console.log("mongoose is connected");
-  // console.log(`Server is running on ${config.get('port')}`)
-  // console.log(`http://localhost:${config.get('port')}`)
+  console.log(`Server is running on ${config.get('port')}`)
+  console.log(`http://localhost:${config.get('port')}`)
 });
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -85,10 +85,5 @@ app.use(function (err, req, res, next) {
   res.render("error");
 });
 
-
-// Port for issues2
-app.listen(3000,()=>{
-  console.log("Server is on the port"+3000)
-})
 
 module.exports = app;
