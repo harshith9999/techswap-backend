@@ -1,7 +1,7 @@
 var mongoose = require("mongoose");
 var validator=require('validator');
 var schema = mongoose.Schema;
-var UserSchema = new schema({
+var userSchema = new schema({
   institute: {
     type: String,
     trim: true,
@@ -60,4 +60,4 @@ var UserSchema = new schema({
     default: null,
   },
 });
-module.exports = mongoose.model("User", UserSchema);
+module.exports = mongoose.model("User", userSchema);

@@ -8,6 +8,7 @@ var config=require('config')
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
+var adminRouter=require("./routes/admin");
 var mongoose = require("mongoose");
 
 var app = express();
@@ -65,6 +66,7 @@ app.use(express.static(path.join(__dirname, "./client/build")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
+app.use("/admin",adminRouter);
 app.get("*", function (req, res) {
   res.sendFile(path.join(__dirname, "./client/build", "index.html"));
 });
