@@ -20,12 +20,12 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      Institute: "",
-      Name: "",
-      Mobile: "",
-      Department: "",
-      Date: "",
-      State: "",
+      institute: "",
+      name: "",
+      mobile: "",
+      department: "",
+      date: "",
+      state: "",
     };
     this.changeFullName = this.changeFullName.bind(this);
     this.changeInstituteName = this.changeInstituteName.bind(this);
@@ -37,32 +37,32 @@ class App extends Component {
 
   changeInstituteName(event) {
     this.setState({
-      Institute: event.target.value,
+      institute: event.target.value,
     });
   }
   changeFullName(event) {
     this.setState({
-      Name: event.target.value,
+      name: event.target.value,
     });
   }
   changeContact(event) {
     this.setState({
-      Mobile: event.target.value,
+      mobile: event.target.value,
     });
   }
   changeDepartment(event) {
     this.setState({
-      Department: event.target.value,
+      department: event.target.value,
     });
   }
   changeDate(event) {
     this.setState({
-      Date: event.target.value,
+      date: event.target.value,
     });
   }
   changeState(event) {
     this.setState({
-      State: event.target.value,
+      state: event.target.value,
     });
   }
 
