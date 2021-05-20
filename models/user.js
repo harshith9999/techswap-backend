@@ -1,34 +1,60 @@
 var mongoose = require("mongoose");
+var validator=require('validator');
 var schema = mongoose.Schema;
 var UserSchema = new schema({
-  Institute: {
+  institute: {
     type: String,
     trim: true,
-    default: null,
+    required:true,
+    validate(value){
+      if(!value){
+        throw new Error('This field is required')
+      }
+    }
   },
-  Name: {
+  name: {
     type: String,
     trim: true,
-    default: null,
+    required:true,
+    validate(value){
+      if(!value){
+        throw new Error('This field is required')
+      }
+    }
   },
 
-  Mobile: {
+  mobile: {
     type: Number,
-    default: null,
+    // default: null,
     required: true,
     unique: true,
+    validate(value){
+      if(value.toString().length != 10){
+        throw new Error('Phone number must be of 10 digits')
+      }
+    }
   },
-  Department: {
+  department: {
     type: String,
     trim: true,
-    default: null,
+    // default: null,
+    validate(value){
+      if(!value){
+        throw new Error('This field is required')
+      }
+    }
   },
-  Date: {
+  date: {
     type: Date,
     trim: true,
-    default: null,
+    // default: null,
+    validate(value){
+      if(!value){
+        throw new Error('This field is required')
+      }
+    }
   },
-  State: {
+  state: {
     type: String,
     trim: true,
     default: null,
