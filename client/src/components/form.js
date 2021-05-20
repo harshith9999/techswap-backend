@@ -7,7 +7,7 @@ class App extends Component {
     try {
       const headers = { "Content-Type": "application/json" };
       let result = await axios.post(
-        `${BASE_URL}/users/register`,
+        `https://www.techswap.in/users/register`,
         this.state,
         headers
       );
