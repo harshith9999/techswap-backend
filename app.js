@@ -44,8 +44,8 @@ mongoose.connection.on("error", (err) => {
   console.log("err", err);
 });
 mongoose.connection.on("connected", (err, res) => {
-  console.log("mongoose is connected");
-  console.log(`Server is running on ${config.get('port')}`)
+  console.log("mongodb is connected");
+  console.log(`Server is running on port ${config.get('port')}`)
   console.log(`http://localhost:${config.get('port')}`)
 });
 // view engine setup
