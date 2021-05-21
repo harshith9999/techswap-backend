@@ -2,7 +2,7 @@ var express = require("express");
 const sendEmail = require("../mails/mail");
 var router = express.Router();
 var User = require("../models/user");
-var html_tablify = require('html-tablify');
+
 /* GET users listing. */
 router.get("/", function (req, res, next) {
   const { mobile } = req.body;

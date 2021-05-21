@@ -1,11 +1,14 @@
 const Admin=require('../models/admin')
 const jwt=require('jsonwebtoken')
+const config=require('config')
 
 
 const auth=async(req,res,next)=>{
 try{
+    console.log(req)
      const token=req.header('Authorization').replace('Bearer ','')
-     const decoded=jwt.verify(token,'techswapproject')
+     console.log(token)
+     const decoded=jwt.verify(token,config.get('secret'))
      const admin=await Admin.findOne({username:decoded.username,'tokens.token':token})
  
 
@@ -19,6 +22,7 @@ try{
 }
 catch(e){
       res.status(403).send({"Error":"Please Authenticate"})   
+      console.log(e)
 }
 }
 

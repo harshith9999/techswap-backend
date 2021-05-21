@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const config=require('config')
 
 const schema = mongoose.Schema
 const adminSchema = new schema({
@@ -68,29 +69,26 @@ adminSchema.methods.generateAuthToken = async function () {
         email: admin.email,
         mobile: admin.mobile
 
-    }, 'techswapproject')
+    }, config.get('secret'))
     admin.tokens=admin.tokens.concat({token})
     await admin.save()
-    res.send({admin,token})
+    return token
+
 }
 
 //Login request
 adminSchema.statics.findByCredentials = async (username, password) => {
     const admin = await Admin.findOne({ username })
-    try {
         if (!admin) {
-            res.send("Invalid Login Credentials")
+            throw new Error ("Invalid Login Credentials")
         }
         const isMatch = await bcrypt.compare(password, admin.password)
         if (!isMatch) {
-            res.send("Invalid Login Credentials")
+            throw new Error ("Invalid Login Credentials")
         }
         return admin
-    }
-    catch (e) {
-        res.status(404).send(e)
+    
 
-    }
 }
 
 
@@ -111,5 +109,5 @@ adminSchema.pre('save', async function (next) {
 })
 
 
-
-module.exports = mongoose.model("Admin", adminSchema)
+const Admin=mongoose.model("Admin", adminSchema)
+module.exports = Admin

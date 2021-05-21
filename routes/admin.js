@@ -4,7 +4,8 @@ var Admin = require("../models/admin");
 var User = require('../models/user');
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const auth=require('../middleware/auth')
+const auth = require('../middleware/auth');
+const { findByIdAndDelete } = require("../models/admin");
 
 
 //Admin Register(Just for initial testing)
@@ -12,84 +13,59 @@ router.post('/', async (req, res) => {
     try {
         const admin = new Admin(req.body)
         await admin.save()
-        // const token=await admin.generateAuthToken()
-        const token = jwt.sign({
-            username: admin.username,
-            email: admin.email,
-            mobile: admin.mobile
-
-        }, 'techswapproject')
-        admin.tokens = admin.tokens.concat({ token })
-        await admin.save()
-        res.send({ admin, token })
+        const token = await admin.generateAuthToken()
+        res.status(201).send({ admin, token })
 
     } catch (e) {
-        res.status(404).send(e)
+        res.status(404).send(e.message)
     }
 })
 //Admin Access
 router.post('/login', async (req, res) => {
     try {
-        const username = req.body.username
-        const admin = await Admin.findOne({ username })
-        if (!admin) {
-            res.send("Invalid Login Credentials")
-        }
-        const isMatch = await bcrypt.compare(req.body.password, admin.password)
-        if (!isMatch) {
-            res.send("Invalid Login Credentials")
-        }
-
-        const token = jwt.sign({
-            username: admin.username,
-            email: admin.email,
-            mobile: admin.mobile
-
-        }, 'techswapproject')
-        admin.tokens = admin.tokens.concat({ token })
-        await admin.save()
+        const admin = await Admin.findByCredentials(req.body.username, req.body.password)
+        const token = await admin.generateAuthToken()
         res.send({ admin, token })
     }
-    // try{
-    //     const admin=await Admin.findByCredentials(req.body.username,req.body.password)
-    //     const token=await admin.generateAuthToken()
-    //     res.send(admin)
-    // }
     catch (e) {
-        res.status(400).send()
+        res.status(400).send({"error": e.message})
     }
 
 })
 
 //Admin logging out
+router.post('/logout', auth, async (req, res) => {
+    try {
+        console.log(req.admin)
+        req.admin.tokens = req.admin.tokens.filter((token) => token.token !== req.token)
+        console.log(req.admin)
+        await req.admin.save()
+        res.send()
+    } catch (e) {
+        console.log(e.message)
+
+    }
+})
 
 
 //Admin listing all users
-router.get('/users', auth,async (req, res) => {
+router.get('/users', auth, async (req, res) => {
     try {
         const users = await User.find({})
         res.send(users)
 
 
     } catch (e) {
-        res.status(404).send(e)
+        res.status(404).send(e.message)
     }
 })
 
 //Admin updating users
 
-router.patch('/:id',auth, async (req, res) => {
-    const updates = Object.keys(req.body)
-    const allowedUpdates = ['name', 'institute', 'department', 'date', 'state', 'mobile']
-    const isValidOperation = updates.every((update) =>
-        allowedUpdates.includes(update)
-    )
-    if (!isValidOperation) {
-        res.status(404).send('Invalid updates')
-    }
+router.patch('/:id', auth, async (req, res) => {
+    const user = await User.isValidId(req.params.id)
+    const updates = await User.isValidUpdates(req.body)
     try {
-        const user = await User.findById(req.params.id)
-
         updates.forEach((update) =>
             user[update] = req.body[update]
         )
@@ -99,21 +75,22 @@ router.patch('/:id',auth, async (req, res) => {
 
     }
     catch (e) {
-        res.status(400).send(e)
+        res.status(400).send(e.message)
     }
 
 
 })
 
 //Admin deleting users
-router.delete('/:id',auth, async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
+    const user = await User.isValidId(req.params.id)
     try {
-        const user = await User.findByIdAndDelete(req.params.id)
+        const user_deleted = await User.findByIdAndDelete(user._id)
 
-        res.send(user)
+        res.send(user_deleted)
     }
     catch (e) {
-        res.status(400).send(e)
+        res.status(400).send(e.message)
     }
 
 
